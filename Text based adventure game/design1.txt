@@ -1,0 +1,196 @@
+# Author:  Fardeen Yaqub
+# Date:    10/21/18
+# Description:
+#   The program puts the user in a game where they are stuck in the woods with a monster chasing them. They user must survive 7 days or travel 150 miles
+#   in order to beat the game. Throughout the game the user will be faced with random events that can give the user items or food or force the user to
+#   fight the monster. If the user's health drops to 0 they lose the game. The user progresses throught the game by selecting the options shown on screen 
+
+##################################
+#### DO NOT TOUCH THESE LINES ####
+from random import randint, seed #
+seed(100)                        #
+##################################
+
+#constants for player and monster health
+MAX_HEALTH = 100
+MIN_HEALTH = 0
+
+DEM_MAX_HEALTH = 300
+
+#constants for survival
+SURVIVE_DAYS = 7
+SURVIVE_DIST = 150
+
+#constant lists of food and items
+FOODS = ["Reese's Pieces", "Pop Rocks", "Ovaltine", "Wonder Bread", "Twinkies"]
+
+ITEMS = ["Sword", "Bicycle", "Hi-C", "Heelys",
+         "Walkman", "Laser Cannon", "Rubber Band"]
+
+#constant lists for menus
+DAILY_CHOICES = ["View Inventory", "View Current Stats", "Eat an Eggo Waffle", "Nothing Else"]
+
+INVENTORY_CHOICES = ["Equip", "Unequip", "I changed my mind"]
+
+MOVEMENT_CHOICES = ["Pack up camp and go","Stay where you are"]
+
+FOOD_CHOICES = ["Eat it","Put it back"]
+
+FIGHT_CHOICES = ["Fight","Flail","Flee"]
+
+### put any other constants you want here ###
+
+# getUserChoice() asks the user to select a choice from a list of choices
+#                 continuously prompts the user until the choice is valid
+#                 a valid choice is one that is a valid index in the list
+# Input:          choices; a list of all the possible choices available
+# Output:         choice; the validated int choice that the user made
+
+# displayMenu()   displays a menu based on the menu list; string menu
+#Input:           choices; no return
+#Output:
+
+# calcDamage()    takes the user's current equipped weapon and calculates
+#                 the amount of damage the weapon can do; a string that
+# Input:          has the name of the user's equipped weapon; the integer 
+# Output:         amount of damage the weapon can do
+
+# eatFood()       takes a list of foods and compares it to the food parameter 
+#                 to calculate the health increase or decrease that the 
+# Input:          food offers; the string food; the health increase 
+# Output:         or decrease the food gives as an int
+
+# fightMonster()  prompts the user to fight, flail, or flee until the user's 
+#                 health is 0, the monster's health is 0, or the user is able
+#                 to flee. If the user has a specific item in their inventory
+#                 they are able to affect the monster's stats. If user dies they
+#                 are told game over; player's health(int),equipped weapon(string)
+# Input:          ,and user's inventory(list); player's remaining health as an 
+# Output:         integer
+
+# backpackEvent() user finds a random food item and are given the option to eat 
+#                 or not eat the food.; player's current health(int);player's
+# Input:          health after the food's effect(int)
+# Output:         
+
+# shedEvent()     user finds a random item from the item list; no input; 
+# Input:          the item the user found (string) 
+# Output:         
+
+
+# trenchEvent()   The user's movement is halved for that day; user's health(int)
+# Input()         and inventory(list); the distance the user traveled(float)
+# Output()
+
+# displayStats()  Displays the user's health, distance traveled, and
+# Input()         equipped item; user's health(int), distance traveled(float),
+# Output()        and equipped item(string); no return
+
+# viewInventory() the user's inventory is displayed and they can choose to equip
+# Input()         or unequip an item or exit the menu; the user's inventory(list)
+# Output()        and the user's current equipped item(string); the new item the
+#                 user has equipped(string)
+
+# travelDistance() calculates the distance the user travels based on their health
+# Input()          and items in their inventor; user's health(int) and user's
+# Output()         inventory(list); the distance the user traveled(float)
+
+
+### put the rest of your function headers here ###
+
+def main():
+
+  #Variables
+    
+    #Starts user with 100 health
+    userHealth = MAX_HEALTH
+    
+    #Starts user at 0 miles
+    userDistance = 0
+
+    #Starts user at day 1
+    userDays = 1
+
+    #Starts user with no item equipped
+    userEquippedItem = "N/A"
+    
+    userChoice = 0
+
+    #User's starting inventory
+    userInventory = ["Walkie Talkie","Flashlight"]
+
+    # while the player isn't dead and hasn't made it far enough and hasn't survived long enough
+
+        # show menu with the daily choices you can make
+        displayMenu(DAILY_CHOICES)
+	userChoice = getUserChoice(daily_choices)
+        
+        # perform the daily tasks
+	# while the player doesn't choose "Nothing Else"
+
+	  #user chooses to view inventory
+	     #user chooses to equip or unequip an item
+	     userEquippedItem = viewInventory(userInventory,userEquippedItem)
+
+	     #displays daily choices menu again
+
+	  #user chooses to view stats
+	     displayStats(userHealth,userDistance,userEquippedItem)
+
+	     #Displays daily choices menu again
+
+	  #user chooses to eat Eggo Waffle
+	     #Determine if user can or can't eat the waffle
+
+	     #User can eat waffle
+	     userHealth = eatFood("Eggo Waffle",userHealth)
+
+	     #Displays the daily choies menu again
+
+       #shows the movement menu
+       displayMenu(MOVEMENT_CHOICES)
+       userChoice = getUserChoice(MOVEMENT_CHOICES)
+
+       #random number is generated from 1 to 10
+       #user chooses to leave camp
+
+         #Number is 1 or 2, backpack event occurs
+	    userDistance += travelDistance(userHealth,userInventory)
+       	    userHealth = backpackEvent(userHealth)
+            #day increments by 1
+
+         #Number is 3 or 4, shed event occurs
+            userInventory.append(shedEvent())
+            #day increments by 1
+
+         #Number is 5 or 6, trench event occurs
+            userDistance += trenchEvent(userHealth,userInventory)
+            #day increments by 2
+
+	 #Number is 7,8,or 9, monster fight occurs
+	    userDistance += travelDistance(userHealth,userInventory)
+	    userHealth = fightMonster(userHealth,userEquippedItem,userInventory)
+	    #day increments by 1
+
+	 #random number is 10, no event occurs
+	    #day increments by 1
+
+         #Trench event, monster event, and backpack event don't occur and user isn't dead. Normal distance is calculated
+            userDistance += travelDistance(userHealth,userInventory)
+
+       #user chooses to stay at camp
+
+         #Number is <=7, monster fight occurs
+	    userHealth = fightMonster(userHealth,userEquippedItem,userInventory)
+	    #day increments by 1
+
+	 #Number is > 7, stay at camp and heal
+	    userHealth = 100
+	    #day increments by 1
+
+   #user survives with health > 0
+   	 #user is congradulated and told how many days it took them to go a distance
+
+   #final stats are displayed
+
+main()
