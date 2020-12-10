@@ -1,0 +1,189 @@
+# File: design3.txt
+# Author: Fardeen Yaqub
+# Date: 12/1/18
+# Section: 30
+# E-mail: fyaqub1@umbc.edu
+# Description: Program allows the user to play sudoku
+
+
+
+# prettyPrint() prints the board with row and column labels,
+#               and spaces the board out so that it looks nice
+# Input:        board;   the square 2d game board (of integers) to print
+# Output:       None;    prints the board in a pretty way
+
+
+# savePuzzle() writes the contents a sudoku puzzle out
+#              to a file in comma separated format
+# Input:       board;    the square 2d puzzle (of integers) to write to a file
+#              fileName; the name of the file to use for writing to
+
+
+# storeFile() reads in and stores a sudoku puzzle from a file
+# Input:      fileName; the string text file sudoku game the user wants to play
+# Output:     board; the square 2d puzzle (of integers) 
+
+
+# solvePuzzle() solves the sudoku puzzle
+# Input:        fileName; the 2d sudoku board the user is playing
+# Output:       solvedBoard; the 2d list solved board
+
+
+# placeNumber() let's the user enter a number onto the board by asking the
+#               row, column, and number they want to place
+# Input:        board; the 2d list sudoku board
+#               row; the int row the user wants to enter a number in
+#               col; the int col the user wants to enter a number in
+#               num; the int num the user wants to enter
+# Output:       updatedBoard; the updated 2d list sudoku board
+
+
+# correctCheck()   Checks if the number the user entered is correct
+# Input:           board; the 2d list sudoku board the user is playing
+#                  solvedBoard; the 2d list solved sudoku board
+#                  row; int row user chose
+#		   col; int col user chose
+#		   num; the number the user chose
+# Output:          correct; the boolean True or False based on placement
+
+
+# checkRow() Checks if the user entered numbers correctly in rows
+# Input:     board; the 2d list sudoku board
+#            solvedBoard; the 2d list solved sudoku board
+# Output:    result: the boolean True or False if rows are correct
+
+
+# checkCol() Checks if the user entered numbers correctly in columns
+# Input:     board; the 2d list sudoku board
+#            solvedBoard; the 2d list solved sudoku board
+# Output:    result: the boolean True or False if columns are correct
+
+
+# checkSquare() Checks if the user entered numbers correctly in squares
+# Input:        board; the 2d list sudoku board
+#               solvedBoard; the 2d list solved sudoku board
+# Output:       result: the boolean True or False if squares are correct
+
+
+# undoMove() Allows the user to undo their most recent move
+# Input:     board; the 2d list sudoku board
+#            userMoves; 2d list containing users choices
+# Ouput:     updatedBoard; the 2d list updated board
+
+
+# storeChoice() Stores the row and col the user chooses
+# Input:        row; int row user chose
+#               col; int col user chose
+# Ouput:        choices; list that contains the users choices
+
+
+# checkPlacement() Checks if user can enter number in chosen position
+# Input:           board; the 2d list sudoku board
+# 		   row; the int row the user chose
+#		   col; int col the user chose
+#		   num; int num the user chose
+# Ouput:           result: boolean True or False if user can place number
+
+
+# deepCopy() Creates a deep copy of the sudoku game board
+# Input:     board; the sudoku game board
+# Output:    copiedBoard; the deep copied sudoku board
+
+
+def main():
+
+    #win conditions
+    rowWin = False
+    colWin = False
+    squareWin = False
+    
+
+    #variable to store user's choices
+    userChoice = []
+
+
+    #Ask for name of board file user wants to play with and store it
+    gameBoard = storeFile(fileName)
+
+    #the solved sudoku board
+    copiedBoard = deepCopy(gameBoard)
+    solvedBoard = solvePuzzle(copiedBoard)
+    
+    #print the board the user choose
+    prettyPrint(gameBoard)
+
+    #Ask if user wants to play or solve
+
+    	 #if user chose to solve
+	     #print solved board
+	     prettyPrint(solvedBoard)
+
+	 #elif user chose to play
+	     #Ask if user wants correctness checking
+	     
+	     #while row win is False, col win is False, square win is False and user choice not equals quit
+
+	     	    #print board
+		    prettyPrint(gameBoard)
+
+	     	    #give menu options (play,save,undo,quit)
+		    #Get user choice
+
+	     	    #if user chooses to play
+	     	    	#Ask user for row,col,and square to place piece
+
+		 	#while user chooses invalid place to put number
+		 	       #Ask user for row,col,and square to place piece
+
+		 	#if user chose correctness checking
+		      	    #if user num is in wrong place
+			    if correctCheck(gameBoard,row,col,num) == False:
+			       #Tell user their choice is wrong
+
+			    #elif user num is in correct place
+		            	  #store user choice
+			    	  userChoice = storeChoice(row,col,userChoice)
+			    
+				  #Place number on board
+			    	  gameBoard = placeNumber(gameboard,row,col,num)
+				 
+		       #if user didn't choose correctness checking
+
+		       	   #if user can't place their number
+			   if checkPlacement(userBoard,row,col,num) == False:
+			      #tells user they can't place num there
+
+			   #if user can place number
+		       	       #store user choice
+			       userChoice = storeChoice(row,col,userChoice)
+			   
+				#place number on board
+			   	gameBoard = placeNumber(row,col,num)
+
+
+                       #checks if user won
+		       rowWin = checkRow(gameBoard,solvedBoard)
+		       colWin = checkCol(gameBoard,solvedBoard)
+		       squareWin = checkSquare(gameBoard,solvedBoard)
+
+
+		    #if user chooses to save
+	    	    	#save user board
+			savePuzzle(gameBoard)
+
+
+		    #if user chooses to undo
+	    	    	#undo the user's last choice
+			gameBoard = undoMove(gameBoard,userChoice)
+		 
+
+	
+    #if user quit print board
+    prettyPrint(gameBoard)
+
+
+    #elif user won
+    prettyPrint(gameBoard)
+		      
+
+main()
