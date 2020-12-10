@@ -1,0 +1,205 @@
+# File: proj2.py
+# Author: Fardeen Yaqub
+# Date: 11/2/18
+# Section: 30
+# E-mail: fyaqub1@umbc.edu
+# Description: Program allows a user to play connect 4 with another player or against a computer.
+# The user chooses how big they want the board to be and can keep playing until they want to quit.  
+
+#For getting a random number
+from random import randint
+
+
+#Constants for height and width
+MIN_WIDTH = 5
+MIN_HEIGHT = 5
+
+
+#Constants for pieces
+PIECE_ONE = "X"
+PIECE_TWO = "O"
+
+
+# getUserChoice() asks the user to select a column to place their piece
+#                 and checks if their choice is in the allowed range and
+#                 and if they can place their piece in the selected column
+# Input:          ; the int width and the 2d list board; the int choice 
+# Output:         the user made
+
+
+# makeBoard()  makes the board based on the width and height the user 
+# Input:       chose; the int width and int height; the 2d list board
+# Output:      made by the function
+
+
+# getWidth()   gets the width the user wants and validates if it can
+# Input:       be used; no input; the int width
+# Output:
+
+
+# getHeight()  gets the height the user wants and validates if it can
+# Input:       be used; no input; the int height
+# Output:
+
+
+# placePiece() places the player's piece in the column the player chose
+# Input:       on the board; 2d list board, string player's piece,
+# Output:      player's int choice, and int height of the board; the
+               updated 2d list board
+
+
+# printBoard() prints the game board; the 2d list board; no return
+# Input:
+# Output: 
+
+
+# getComputerChoice() computer randomly chooses a column to place their
+# Input:              piece in; the int width and 2d list board; the
+# Output:             computer's int column choice
+
+
+# checkWin() Checks if the player or computer won the game; the 2d list
+# Input:     board and the player or computer's string piece, int width  
+# Output:    and int height of the board; a boolean True if win or False
+  	     if not win
+
+# checkTie() Checks if the game is a tie if the board is filled; the
+# Input:     2d list board and the int width; a boolean True if tie 
+# Output:    or False if not tie
+
+
+
+def main():
+
+    #variable for user to keep playing
+    userPlay = "y"
+
+    #while user still wants to play
+
+      #get Width
+      width = getWidth()
+
+      #get Height
+      #height = getHeight()
+
+      #set win and tie to be false
+      win = False
+      tie = False
+    
+      #set playing order
+      playerTurn = True
+      playerTwoTurn = False
+      computerTurn = False
+
+      #player's choices
+      playerChoice = 0
+      playerTwoChoice = 0
+      computerChoice = 0
+
+      #creates the board
+      gameBoard = makeBoard(width,height)
+
+
+      #Ask if computer is playing
+
+      #if computer isn't playing
+      	  #print board
+	  printBoard(gameBoard)
+
+	  #while no one won or the game isn't tied
+
+	    #if it's player one's turn
+	    
+	      #Get player 1 choice
+	      playerChoice = getUserChoice(width,gameBoard)
+	      
+	      #Place player 1 piece
+	      gameBoard = placePiece(gameBoard,PIECE_ONE,playerChoice,height)
+
+	      #Set playerTurn to False
+	      #Set playerTwoTurn to True
+	      
+
+	    #print updated board
+	    printBoard(gameBoard)
+
+	    #if it's player two's turn
+
+	      #Get player 2 choice
+	      playerTwoChoice = getUserChoice(width,gameBoard)
+
+	      #Place player 2 piece
+	      gameBoard = placePiece(gameBoard,PIECE_TWO,playerTwoChoice,height)
+
+	      #Set playerTwoTurn to False
+	      #Set playerTurn to True
+
+	    #print updated board
+	    printBoard(gameBoard)
+
+
+	    #Check if player 1 won
+	    win = checkWin(board,PIECE_ONE,width,height)
+	    
+
+	    #Check if player 2 won
+	    win = checkWin(board,PIECE_TWO,width,height)
+	    
+
+	    #Check if game is tied
+	    tie = checkTie(board,width)
+
+	    #if a player won or game is tied, ask if user wants to play again
+
+
+      #if computer is playing
+
+          #print board
+      	  printBoard(gameBoard)
+
+
+          #while no one won or the game isn't tied
+
+	    #if it's player one's turn
+
+	      #Get player 1 choice
+              playerChoice = getUserChoice(width,gameBoard)
+
+              #Place player 1 piece
+              gameBoard = placePiece(gameBoard,PIECE_ONE,playerChoice,height)
+
+	      
+	      #Set playerTurn to False
+	      #Set computerTurn to True
+
+	    #print updated board
+            printBoard(gameBoard)
+
+	    #if it's the computer's turn
+
+	      #Get computer choice
+              computerChoice = getUserChoice(width,gameBoard)
+
+              #Place computer piece
+              gameBoard = placePiece(gameBoard,PIECE_TWO,computerChoice,height)
+
+	      #Set playerTurn to True
+	      #Set computerTurn to False
+
+	    #print updated board
+	    printBoard(gameBoard)
+
+            #Check if player 1 won
+	    win = checkWin(gameBoard,PIECE_ONE,width,height)
+	    
+            #Check if computer won
+	    win = checkWin(gameBoard,PIECE_TWO,width,height)
+
+            #Check if game is tied
+	    tie = checkTie(gameBoard,width)
+
+            #if a player or computer won or game is tied, ask if user wants to play again
+
+
+
+
